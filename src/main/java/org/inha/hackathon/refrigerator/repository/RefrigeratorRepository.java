@@ -1,6 +1,7 @@
 package org.inha.hackathon.refrigerator.repository;
 
 import org.inha.hackathon.refrigerator.entity.Ingredient;
+import org.inha.hackathon.refrigerator.entity.IngredientMeta;
 import org.inha.hackathon.refrigerator.entity.Refrigerator;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
