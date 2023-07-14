@@ -13,6 +13,6 @@ public interface RefrigeratorRepository extends JpaRepository<Ingredient, Long> 
     @Query("select r from Refrigerator r where r.user.id = :userId")
     Optional<Refrigerator> findRefrigerator(@Param("userId") Long userId);
 
-    @Query("select i from Ingredient i join fetch i.ingredientMeta im where i.refrigerator.id = :refrigeratorId")
+    @Query("select i from Ingredient i join fetch i.ingredientMeta im where i.refrigerator.id = :refrigeratorId order by i.createdAt desc")
     List<Ingredient> findIngredients(@Param("refrigeratorId") Long refrigeratorId);
 }

@@ -15,8 +15,5 @@ public class Recipe {
     private String name;
     private Float calories;
     private String tip;
-
-    @ManyToOne
-    @JoinColumn(name = "detail_id")
-    private Detail detail;
+    private String ingredients;
 }
