@@ -2,9 +2,11 @@ package org.inha.hackathon.refrigerator.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 @Entity
 public class IngredientMeta {
     @Id
