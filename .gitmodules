@@ -1,0 +1,3 @@
+[submodule "InhaHackathon-Secret"]
+	path = InhaHackathon-Secret
+	url = https://github.com/TeamC-ZERO/InhaHackathon-Secret.git
