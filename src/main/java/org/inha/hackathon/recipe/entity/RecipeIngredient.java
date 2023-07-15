@@ -18,5 +18,4 @@ public class RecipeIngredient {
     @ManyToOne
     @JoinColumn(name = "ingredient_meta_id")
     private IngredientMeta ingredientMeta;
-    private Integer gram;
 }

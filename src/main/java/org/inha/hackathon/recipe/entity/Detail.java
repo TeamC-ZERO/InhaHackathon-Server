@@ -17,4 +17,8 @@ public class Detail {
     private String content;
 
     private Integer recipeOrder;
+
+    @ManyToOne
+    @JoinColumn(name = "recipe_id")
+    private Recipe recipe;
 }
