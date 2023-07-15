@@ -14,4 +14,4 @@ spring:
         show_sql: true
         
 naver:
-  secret: ${{ secrets.NAVER_SECRET_KEY }}
+  secret: ${secrets.NAVER_SECRET_KEY}
