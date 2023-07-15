@@ -20,7 +20,7 @@ public class Ingredient extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "refrigerator_id")
     private Refrigerator refrigerator;
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "ingredient_meta_id")
     private IngredientMeta ingredientMeta;
     private LocalDateTime purchaseDate;
