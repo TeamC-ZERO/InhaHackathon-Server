@@ -12,6 +12,7 @@ import org.inha.hackathon.refrigerator.entity.Refrigerator;
 import org.inha.hackathon.refrigerator.repository.IngredientMetaRepository;
 import org.inha.hackathon.refrigerator.repository.IngredientRepository;
 import org.inha.hackathon.refrigerator.repository.RefrigeratorRepository;
+import org.inha.hackathon.user.entity.User;
 import org.inha.hackathon.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ import java.time.Duration;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -86,9 +88,13 @@ public class RefrigeratorService {
     }
 
     private Long findUserIdByDeviceToken(String deviceToken) {
-        return userRepository.findByDeviceToken(deviceToken)
-                .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 디바이스 토큰 값입니다."))
-                .getId();
+        Optional<User> user = userRepository.findByDeviceToken(deviceToken);
+        if(user.isEmpty()) {
+            User savedUser = userRepository.save(User.builder().deviceToken(deviceToken).build());
+            return savedUser.getId();
+        } else {
+            return user.get().getId();
+        }
     }
 
     private Refrigerator findRefrigerator(Long userId) {
