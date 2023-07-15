@@ -11,7 +11,6 @@ public class ExpirationIngredientResponseDto {
     private Long id;
     private String name;
     private Integer expirationDate;
-
     private String imgUrl;
 
     @Builder

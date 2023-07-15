@@ -1,7 +1,6 @@
 package org.inha.hackathon.refrigerator.controller;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.inha.hackathon.common.ApiResponse;
 import org.inha.hackathon.refrigerator.dto.request.IngredientRequestDto;
 import org.inha.hackathon.refrigerator.dto.response.ExpirationIngredientResponseDto;
@@ -21,7 +20,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-@Slf4j
 @RequiredArgsConstructor
 @RequestMapping("api/v1/refrigerator")
 @Controller
