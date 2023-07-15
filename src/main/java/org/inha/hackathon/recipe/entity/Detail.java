@@ -6,17 +6,15 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class Recipe {
+public class Detail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "recipe_id")
+    @Column(name = "detail_id")
     private Long id;
-    private String imageUrl;
-    private String name;
-    private Float calories;
-    private String tip;
 
-    @ManyToOne
-    @JoinColumn(name = "detail_id")
-    private Detail detail;
+    private String imageUrl;
+
+    private String content;
+
+    private Integer recipeOrder;
 }

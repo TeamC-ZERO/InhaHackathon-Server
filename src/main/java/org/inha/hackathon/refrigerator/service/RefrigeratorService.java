@@ -35,17 +35,21 @@ public class RefrigeratorService {
     @Value("${naver.secret}")
     private String secretKey;
 
+    // 유통기한 임박순으로 정렬
     public List<ExpirationIngredientResponseDto> expirationIngredients(IngredientRequestDto ingredientRequest) {
         String deviceToken = ingredientRequest.getDeviceToken();
         Long userId = findUserIdByDeviceToken(deviceToken);
+
         Refrigerator refrigerator = refrigeratorRepository.findRefrigerator(userId)
                 .orElseThrow(() -> new IllegalArgumentException("id: " + userId + " 회원은 존재하지 않습니다."));
+
         Long refrigeratorId = refrigerator.getId();
         return refrigeratorRepository.findIngredients(refrigeratorId).stream()
                 .map(ExpirationIngredientResponseDto::of)
                 .collect(Collectors.toList());
     }
 
+    // 조회순으로 정렬
     public List<IngredientResponseDto> ingredients(IngredientRequestDto ingredientRequest) {
         String deviceToken = ingredientRequest.getDeviceToken();
         Long userId = findUserIdByDeviceToken(deviceToken);
