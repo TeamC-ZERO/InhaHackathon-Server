@@ -30,6 +30,15 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
+processResources.dependsOn('copySecret')
+
+task copySecret(type: Copy) {
+    from './InhaHackathon-Secret'
+    include "*.yml"
+    into './src/main/resources'
+}
+
 tasks.named('test') {
     useJUnitPlatform()
 }
+
