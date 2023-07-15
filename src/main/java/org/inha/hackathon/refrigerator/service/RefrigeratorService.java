@@ -65,6 +65,7 @@ public class RefrigeratorService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public void receiptScan(IngredientRequestDto ingredientRequest, File file, String extension) {
         String deviceToken = ingredientRequest.getDeviceToken();
         Long userId = findUserIdByDeviceToken(deviceToken);
@@ -72,20 +73,24 @@ public class RefrigeratorService {
                 .orElseThrow(() -> new IllegalArgumentException("id: " + userId + " 회원은 존재하지 않습니다."));
 
         List<String> processedReceipt = NaverOcrApi.callApi("POST", file, secretKey, extension);
+        List<IngredientMeta> wordCache = ingredientMetaRepository.findAll();
 
         for (String word : processedReceipt) {
-            if (word.startsWith("p") & word.length() > 1) {
+            if (word.startsWith("P") & word.length() > 1) {
                 String processedWord = word.substring(1);
 
-                IngredientMeta ingredientMeta = ingredientMetaRepository.findByName(processedWord)
-                        .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 식재료입니다."));
-                Ingredient ingredient = Ingredient.builder()
-                        .refrigerator(refrigerator)
-                        .ingredientMeta(ingredientMeta)
-                        .purchaseDate(LocalDateTime.now())
-                        .endDate(LocalDateTime.now().plusDays(ingredientMeta.getPreservationDate()))
-                        .build();
-                ingredientRepository.save(ingredient);
+                for (IngredientMeta metaWord : wordCache) {
+                    if (processedWord.contains(metaWord.getName())
+                            && ingredientRepository.findByIngredientMeta(metaWord).isEmpty()) {
+                        Ingredient ingredient = Ingredient.builder()
+                                .refrigerator(refrigerator)
+                                .ingredientMeta(metaWord)
+                                .purchaseDate(LocalDateTime.now())
+                                .endDate(LocalDateTime.now().plusDays(metaWord.getPreservationDate()))
+                                .build();
+                        ingredientRepository.save(ingredient);
+                    }
+                }
             }
         }
     }

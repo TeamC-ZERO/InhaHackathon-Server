@@ -1,6 +1,7 @@
 package org.inha.hackathon.refrigerator.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 import org.inha.hackathon.common.ApiResponse;
 import org.inha.hackathon.refrigerator.dto.request.IngredientRequestDto;
 import org.inha.hackathon.refrigerator.dto.response.ExpirationIngredientResponseDto;
@@ -45,8 +46,7 @@ public class RefrigeratorController {
         String extension = getExtensionByStringHandling(file.getName())
                 .orElseThrow(() -> new IllegalArgumentException("파일명의 확장자가 존재하지 않습니다."));
         refrigeratorService.receiptScan(ingredientRequest, file, extension);
-        return ResponseEntity.ok()
-                .body(ApiResponse.of(null));
+        return ResponseEntity.ok().body(ApiResponse.of(null));
     }
 
     private File multipartToFile(MultipartFile multipartFile) throws IOException {
