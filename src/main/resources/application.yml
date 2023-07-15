@@ -7,10 +7,11 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
     properties:
       hibernate:
         format_sql: true
         show_sql: true
-    #database-platform: H2
-    #defer-datasource-initialization: true
+        
+naver:
+  secret: ${NAVER_SECRET_KEY}

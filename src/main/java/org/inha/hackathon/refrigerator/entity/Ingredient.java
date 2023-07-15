@@ -2,6 +2,7 @@ package org.inha.hackathon.refrigerator.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -23,4 +24,12 @@ public class Ingredient {
     private IngredientMeta ingredientMeta;
     private LocalDateTime purchaseDate;
     private LocalDateTime endDate;
+
+    @Builder
+    public Ingredient(Refrigerator refrigerator, IngredientMeta ingredientMeta, LocalDateTime purchaseDate, LocalDateTime endDate) {
+        this.refrigerator = refrigerator;
+        this.ingredientMeta = ingredientMeta;
+        this.purchaseDate = purchaseDate;
+        this.endDate = endDate;
+    }
 }
