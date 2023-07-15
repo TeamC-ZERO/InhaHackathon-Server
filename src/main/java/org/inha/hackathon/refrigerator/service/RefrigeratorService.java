@@ -46,10 +46,9 @@ public class RefrigeratorService {
 
         Long refrigeratorId = refrigerator.getId();
         List<Ingredient> result = refrigeratorRepository.findIngredients(refrigeratorId);
-        log.info("image=", result.get(0).getIngredientMeta().getImgUrl());
 
         return result.stream()
-                .map(x -> ExpirationIngredientResponseDto.of(x, getLatestExpiration(x.getPurchaseDate()), x.getIngredientMeta().getImgUrl()))
+                .map(x -> ExpirationIngredientResponseDto.of(x, getLatestExpiration(x.getEndDate()), x.getIngredientMeta().getImgUrl()))
                 .sorted(Comparator.comparingInt(ExpirationIngredientResponseDto::getExpirationDate))
                 .collect(Collectors.toList());
     }
