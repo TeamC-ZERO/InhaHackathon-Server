@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.Duration;
 import java.io.File;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -47,9 +48,8 @@ public class RefrigeratorService {
         List<Ingredient> result = refrigeratorRepository.findIngredients(refrigeratorId);
 
         return result.stream()
-                .sorted((o1, o2) ->
-                    getLatestExpiration(o1.getPurchaseDate()) - getLatestExpiration(o2.getPurchaseDate()))
-                .map(ExpirationIngredientResponseDto::of)
+                .map(x -> ExpirationIngredientResponseDto.of(x, getLatestExpiration(x.getPurchaseDate())))
+                .sorted(Comparator.comparingInt(ExpirationIngredientResponseDto::getExpirationDate))
                 .collect(Collectors.toList());
     }
 
@@ -70,10 +70,13 @@ public class RefrigeratorService {
         Long userId = findUserIdByDeviceToken(deviceToken);
         Refrigerator refrigerator = refrigeratorRepository.findRefrigerator(userId)
                 .orElseThrow(() -> new IllegalArgumentException("id: " + userId + " 회원은 존재하지 않습니다."));
+
         List<String> processedReceipt = NaverOcrApi.callApi("POST", file, secretKey, extension);
+
         for (String word : processedReceipt) {
             if (word.startsWith("p") & word.length() > 1) {
                 String processedWord = word.substring(1);
+
                 IngredientMeta ingredientMeta = ingredientMetaRepository.findByName(processedWord)
                         .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 식재료입니다."));
                 Ingredient ingredient = Ingredient.builder()
