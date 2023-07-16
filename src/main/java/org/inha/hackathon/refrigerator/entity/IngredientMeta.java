@@ -15,4 +15,5 @@ public class IngredientMeta {
     private Long id;
     private String name;
     private Integer preservationDate;
+    private String imageUrl;
 }
