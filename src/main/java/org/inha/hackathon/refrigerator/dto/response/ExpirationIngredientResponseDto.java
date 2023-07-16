@@ -11,26 +11,22 @@ public class ExpirationIngredientResponseDto {
     private Long id;
     private String name;
     private Integer expirationDate;
+    private String imgUrl;
 
     @Builder
-    public ExpirationIngredientResponseDto(Long id, String name, Integer expirationDate) {
+    public ExpirationIngredientResponseDto(Long id, String name, Integer expirationDate, String imgUrl) {
         this.id = id;
         this.name = name;
         this.expirationDate = expirationDate;
+        this.imgUrl = imgUrl;
     }
 
-    public static ExpirationIngredientResponseDto of(Ingredient ingredient) {
+    public static ExpirationIngredientResponseDto of(Ingredient ingredient, Integer expireDate, String imgUrl) {
         return ExpirationIngredientResponseDto.builder()
                 .id(ingredient.getId())
                 .name(ingredient.getIngredientMeta().getName())
-                .expirationDate(calculateExpirationDate(ingredient.getPurchaseDate(), ingredient.getIngredientMeta().getPreservationDate()))
+                .expirationDate(expireDate)
+                .imgUrl(imgUrl)
                 .build();
-    }
-
-    public static int calculateExpirationDate(LocalDateTime startDate, int period) {
-        LocalDateTime now = LocalDateTime.now();
-        int expirationDate = now.getYear() * 365 + now.getMonthValue() * 30 + now.getDayOfMonth();
-        expirationDate -= startDate.getYear() * 365 + startDate.getMonthValue() * 30 + startDate.getDayOfMonth() + period;
-        return expirationDate;
     }
 }

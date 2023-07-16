@@ -48,5 +48,5 @@ jobs:
           script: |
             docker stop $(docker ps -a -q)
             docker rm $(docker ps -a -q)
-            docker pull kodongcheon/$tag
+            docker pull kodongcheon/v1
             docker run -d -p 8080:8080 --name app kodongcheon/v1
